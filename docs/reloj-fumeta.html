@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Reloj Fumeta · esfera</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400&display=swap" rel="stylesheet">
+<style>html,body{margin:0;height:100%;background:#000;overflow:hidden}
+#ffStage{position:fixed;left:50%;top:50%;width:438px;height:438px;transform-origin:0 0}
+
+/* ===== Reloj Fumeta (face) — native 438x438 ===== */
+.ff-face{--bg:#000;--ink:#eafaf8;--accent:#0ABAB5;--soft:#81D8D0;--muted:rgba(129,216,208,.55);--track:rgba(129,216,208,.10);--smoke:129,216,208;
+  position:relative;width:438px;height:438px;border-radius:50%;overflow:hidden;background:var(--bg);
+  font-family:'Outfit',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);
+  -webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;cursor:pointer;
+  transition:background .6s ease,color .6s ease;contain:strict}
+.ff-face[data-theme="1"]{--bg:#81D8D0;--ink:#062322;--accent:#04110f;--soft:#04110f;--muted:rgba(4,17,15,.6);--track:rgba(4,17,15,.12);--smoke:255,255,255}
+.ff-face[data-theme="2"]{--bg:#050707;--ink:#ffffff;--accent:#81D8D0;--soft:#ffffff;--muted:rgba(255,255,255,.55);--track:rgba(255,255,255,.08);--smoke:255,255,255}
+.ff-face canvas.ff-smoke{position:absolute;inset:0;width:438px;height:438px;pointer-events:none}
+.ff-face svg{position:absolute;inset:0;overflow:visible;pointer-events:none}
+.ff-wm{transform-origin:219px 219px;animation:ff-spin 240s linear infinite;opacity:.06;transition:opacity 1s}
+@keyframes ff-spin{to{transform:rotate(360deg)}}
+.ff-track{stroke:var(--track)}
+.ff-ring{stroke:var(--accent);transition:stroke .6s}
+.ff-head{fill:var(--soft)}
+.ff-tick{stroke:var(--muted)} .ff-tick.ff-main{stroke:var(--accent)}
+.ff-leaf{position:absolute;left:50%;top:96px;width:44px;height:44px;margin-left:-22px;color:var(--accent);transition:filter .8s,transform .8s}
+.ff-leaf svg{position:static;width:100%;height:100%}
+.ff-time{position:absolute;left:0;right:0;top:158px;height:108px;display:flex;justify-content:center;align-items:center;
+  font-weight:200;font-size:104px;line-height:108px;letter-spacing:-.01em}
+.ff-slot{position:relative;display:inline-block;width:.6em;height:108px;-webkit-clip-path:inset(0 -30px);clip-path:inset(0 -30px);text-align:center}
+.ff-slot>span{position:absolute;left:0;right:0;top:0;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .55s}
+.ff-slot>span.ff-in{transform:translateY(70%);opacity:0}
+.ff-slot>span.ff-out{transform:translateY(-70%);opacity:0}
+.ff-colon{position:relative;display:inline-block;width:.24em;height:108px;transition:opacity .5s}
+.ff-colon:before,.ff-colon:after{content:'';position:absolute;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--accent)}
+.ff-colon:before{top:38px}.ff-colon:after{top:68px}
+.ff-date{position:absolute;left:0;right:0;top:282px;text-align:center;font-weight:300;font-size:17px;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--muted);padding-left:.32em}
+.ff-sep{display:block;width:26px;height:1px;margin:0 auto;position:absolute;left:50%;top:272px;margin-left:-13px;background:var(--accent);opacity:.7}
+.ff-420{position:absolute;left:0;right:0;top:318px;text-align:center;font-weight:300;font-size:15px;letter-spacing:.4em;padding-left:.4em;
+  color:var(--accent);opacity:0;transform:translateY(6px);transition:opacity 1s,transform 1s}
+.ff-toast{position:absolute;left:50%;top:352px;transform:translateX(-50%);font-size:12px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--muted);opacity:0;transition:opacity .4s;white-space:nowrap;padding-left:.25em}
+.ff-toast.ff-show{opacity:1}
+/* modo 420 */
+.ff-face.ff-m420 .ff-420{opacity:1;transform:none}
+.ff-face.ff-m420 .ff-wm{opacity:.16}
+.ff-face.ff-m420 .ff-leaf{animation:ff-pulse 2.4s ease-in-out infinite}
+@keyframes ff-pulse{0%,100%{filter:drop-shadow(0 0 2px var(--accent));transform:scale(1)}50%{filter:drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 18px var(--accent));transform:scale(1.12)}}
+@media (prefers-reduced-motion:reduce){.ff-wm{animation:none}}
+</style></head>
+<body><div id="ffStage">
+<div class="ff-face" id="ffFace" data-theme="0" role="img" aria-label="Reloj">
+  <canvas class="ff-smoke" width="438" height="438"></canvas>
+  <svg viewBox="0 0 438 438" width="438" height="438">
+    <g class="ff-wm" fill="none" stroke="currentColor" stroke-width="1.2"></g>
+    <g class="ff-ticks"></g>
+    <circle class="ff-track" cx="219" cy="219" r="209" fill="none" stroke-width="1.5"/>
+    <circle class="ff-ring" cx="219" cy="219" r="209" fill="none" stroke-width="2.5" stroke-linecap="round" transform="rotate(-90 219 219)"/>
+    <circle class="ff-head" r="3.2" cx="219" cy="10"/>
+  </svg>
+  <div class="ff-leaf"><svg viewBox="-50 -50 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"></svg></div>
+  <div class="ff-time"><span class="ff-slot"></span><span class="ff-slot"></span><span class="ff-colon"></span><span class="ff-slot"></span><span class="ff-slot"></span></div>
+  <i class="ff-sep"></i>
+  <div class="ff-date"></div>
+  <div class="ff-420">4:20</div>
+  <div class="ff-toast"></div>
+</div>
+</div>
+<script>
+/* ===== Reloj Fumeta (face) JS — call initFumetaFace(rootElement) ===== */
+function initFumetaFace(root){
+  var NS='http://www.w3.org/2000/svg', C=219, R=209, CIRC=2*Math.PI*R;
+  var THEMES=['Tiffany · Negro','Negro · Tiffany','Tiffany · Blanco'];
+  var KEY='relojFumetaTheme';
+  // --- clock source: device clock; optional ?t=HH:MM[:SS] to preview (e.g. ?t=16:19:50)
+  var offset=0;
+  try{var m=/[?&]t=(\d{1,2}):(\d{2})(?::(\d{2}))?/.exec(location.search);
+    if(m){var d=new Date();d.setHours(+m[1],+m[2],+(m[3]||0),0);offset=d-Date.now();}}catch(e){}
+  function now(){return new Date(Date.now()+offset);}
+
+  // --- cannabis leaf (7 leaflets) as thin outline + veins
+  function leafPath(scale){
+    var parts=[], L=[[0,1],[27,.84],[-27,.84],[56,.66],[-56,.66],[98,.36],[-98,.36]];
+    L.forEach(function(p){
+      var a=p[0]*Math.PI/180, l=44*p[1]*scale, w=9*p[1]*scale+2*scale, ca=Math.cos(a), sa=Math.sin(a);
+      function T(x,y){return (x*ca-y*sa).toFixed(2)+' '+(x*sa+y*ca).toFixed(2);} // rotate around base
+      parts.push('M'+T(0,0)+' C'+T(w,-l*.28)+' '+T(w*.75,-l*.72)+' '+T(0,-l)+' C'+T(-w*.75,-l*.72)+' '+T(-w,-l*.28)+' '+T(0,0)+'Z');
+      parts.push('M'+T(0,-2*scale)+' L'+T(0,-l*.86)); // vein
+    });
+    parts.push('M0 0 L0 '+(16*scale).toFixed(2)); // stem
+    return parts.join(' ');
+  }
+  function addPath(g,d,attrs){var p=document.createElementNS(NS,'path');p.setAttribute('d',d);
+    for(var k in attrs)p.setAttribute(k,attrs[k]);g.appendChild(p);return p;}
+  // small accent leaf
+  var leafSvg=root.querySelector('.ff-leaf svg');
+  var lg=document.createElementNS(NS,'g');lg.setAttribute('transform','translate(0 6)');leafSvg.appendChild(lg);
+  addPath(lg,leafPath(1),{});
+  // watermark leaf (large, very faint, rotating slowly)
+  var wm=root.querySelector('.ff-wm');
+  var wg=document.createElementNS(NS,'g');wg.setAttribute('transform','translate(219 236) scale(3.3)');wg.setAttribute('stroke-width','.4');
+  wm.appendChild(wg);addPath(wg,leafPath(1),{});
+  wm.style.color='var(--soft)';
+  // ticks
+  var tg=root.querySelector('.ff-ticks');
+  for(var i=0;i<60;i++){
+    var main=i%15===0, hour=i%5===0, a=i*6*Math.PI/180, r1=main?186:(hour?190:196), r2=200;
+    var ln=document.createElementNS(NS,'line');
+    ln.setAttribute('x1',C+r1*Math.sin(a));ln.setAttribute('y1',C-r1*Math.cos(a));
+    ln.setAttribute('x2',C+r2*Math.sin(a));ln.setAttribute('y2',C-r2*Math.cos(a));
+    ln.setAttribute('stroke-width',main?1.6:(hour?1.1:.6));
+    ln.setAttribute('class','ff-tick'+(main?' ff-main':''));
+    if(!hour)ln.setAttribute('opacity','.45');
+    tg.appendChild(ln);
+  }
+  var ring=root.querySelector('.ff-ring'), head=root.querySelector('.ff-head');
+  ring.setAttribute('stroke-dasharray',CIRC.toFixed(2));
+
+  // --- theme (tap to cycle, saved in localStorage)
+  var theme=0; try{theme=(+localStorage.getItem(KEY))||0;}catch(e){}
+  var toast=root.querySelector('.ff-toast'), tt;
+  function setTheme(t,show){theme=(t+THEMES.length)%THEMES.length;root.setAttribute('data-theme',theme);
+    try{localStorage.setItem(KEY,theme);}catch(e){}
+    readSmoke();
+    if(show){toast.textContent=THEMES[theme];toast.classList.add('ff-show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('ff-show');},1400);}}
+  root.addEventListener('click',function(){setTheme(theme+1,true);});
+
+  // --- digits with slide-up animation
+  var slots=root.querySelectorAll('.ff-slot'), cur=['','','',''];
+  function setDigit(i,ch){
+    if(cur[i]===ch)return; var s=slots[i], first=cur[i]==='';cur[i]=ch;
+    var old=s.lastElementChild, n=document.createElement('span');n.textContent=ch;
+    if(first){s.appendChild(n);return;}
+    n.className='ff-in';s.appendChild(n);
+    n.getBoundingClientRect();n.className='';
+    if(old){old.className='ff-out';setTimeout(function(){if(old.parentNode)old.parentNode.removeChild(old);},600);}
+  }
+  var DIAS=['dom','lun','mar','mié','jue','vie','sáb'], MESES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var dateEl=root.querySelector('.ff-date'), colon=root.querySelector('.ff-colon'), lastSec=-1, m420=false;
+  function updateText(d){
+    var h=('0'+d.getHours()).slice(-2), mi=('0'+d.getMinutes()).slice(-2);
+    setDigit(0,h[0]);setDigit(1,h[1]);setDigit(2,mi[0]);setDigit(3,mi[1]);
+    dateEl.textContent=DIAS[d.getDay()]+' '+d.getDate()+' '+MESES[d.getMonth()];
+    var is420=(d.getHours()===4||d.getHours()===16)&&d.getMinutes()===20;
+    if(is420!==m420){m420=is420;root.classList.toggle('ff-m420',m420);}
+  }
+
+  // --- smoke (canvas, ~30fps, few particles)
+  var cv=root.querySelector('canvas'), cx=cv.getContext('2d'), smokeRGB='129,216,208', P=[], lastSmoke=0;
+  function readSmoke(){smokeRGB=getComputedStyle(root).getPropertyValue('--smoke').trim()||'129,216,208';}
+  function spawn(){return{x:219+(Math.random()-.5)*60,y:395+Math.random()*20,r:6+Math.random()*8,vx:(Math.random()-.5)*.25,
+    vy:-(.35+Math.random()*.35),life:0,max:260+Math.random()*160,ph:Math.random()*6.28,sw:.4+Math.random()*.5};}
+  function drawSmoke(t){
+    var target=m420?22:8;
+    while(P.length<target&&Math.random()<(m420?.25:.06))P.push(spawn());
+    cx.clearRect(0,0,438,438);
+    var base=m420?.11:.065;
+    for(var i=P.length-1;i>=0;i--){var p=P[i];p.life++;
+      p.x+=p.vx+Math.sin(p.ph+p.life*.02)*p.sw*.5;p.y+=p.vy;p.r+=.12;
+      var k=p.life/p.max, a=base*Math.sin(Math.PI*Math.min(k,1));
+      if(k>=1||p.y<40){P.splice(i,1);continue;}
+      var g=cx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      g.addColorStop(0,'rgba('+smokeRGB+','+a.toFixed(3)+')');g.addColorStop(1,'rgba('+smokeRGB+',0)');
+      cx.fillStyle=g;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.2832);cx.fill();}
+  }
+
+  // --- main loop: smooth sweeping seconds ring
+  function frame(ts){
+    var d=now(), s=d.getSeconds()+d.getMilliseconds()/1000, frac=s/60, odd=d.getMinutes()%2===1;
+    // even minutes: ring fills; odd minutes: ring empties from the top (no hard reset)
+    ring.style.strokeDashoffset=odd?(-CIRC*frac).toFixed(2):(CIRC*(1-frac)).toFixed(2);
+    var a=frac*2*Math.PI; head.setAttribute('cx',(C+R*Math.sin(a)).toFixed(2));head.setAttribute('cy',(C-R*Math.cos(a)).toFixed(2));
+    var sec=d.getSeconds(); if(sec!==lastSec){lastSec=sec;updateText(d);colon.style.opacity=(sec%2)?.6:1;}
+    if(ts-lastSmoke>33){lastSmoke=ts;drawSmoke(ts);}
+    requestAnimationFrame(frame);
+  }
+  setTheme(theme,false); updateText(now()); requestAnimationFrame(frame);
+}
+
+(function(){var st=document.getElementById('ffStage');
+function fit(){var s=Math.min(innerWidth,innerHeight)/438;st.style.transform='scale('+s+') translate(-50%,-50%)';}
+addEventListener('resize',fit);fit();initFumetaFace(document.getElementById('ffFace'));})();
+</script></body></html>
