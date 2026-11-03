@@ -1,0 +1,37 @@
+# Android / Gradle / Kotlin
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+build/
+.gradle/
+.kotlin/
+local.properties
+*.iml
+.idea/
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+*.log
+
+# Signing. Portal-debug.apk is the one the owner installs from the phone.
+*.jks
+*.keystore
+!Portal-debug.apk
+
+# Python (build / screenshot scripts)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~

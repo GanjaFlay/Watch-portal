@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Watch Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --safe: 14.6vmin; --accent: #0ABAB5; --soft: #81D8D0; --ink: #eafaf8; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; height: 100%; background: #000; color: var(--ink);
+    font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden; user-select: none; -webkit-user-select: none;
+  }
+  body { display: flex; align-items: center; justify-content: center; }
+  .round {
+    width: 100vmin; height: 100vmin; border-radius: 50%;
+    padding: var(--safe);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  header { display: flex; flex-direction: column; align-items: center; gap: .5vmin; margin-bottom: 1.8vmin; }
+  .leaf { width: 6.4vmin; height: 8vmin; color: var(--accent); }
+  .brand {
+    margin: 0; font-weight: 300; font-size: 3.1vmin; letter-spacing: .42em;
+    text-transform: uppercase; color: var(--soft); padding-left: .42em;
+  }
+  nav { width: 100%; display: flex; flex-direction: column; gap: 1.7vmin; }
+  nav a {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 11.2vmin; padding: 0 2vmin;
+    border-radius: 999px; border: 1px solid rgba(10,186,181,.7);
+    color: var(--soft); text-decoration: none;
+    font-weight: 300; font-size: 4.2vmin; letter-spacing: .01em;
+  }
+  nav a:active { background: var(--accent); color: #04110f; }
+  .live {
+    margin-top: 1.6vmin;
+    color: rgba(129,216,208,.5);
+    font-size: 2.7vmin; font-weight: 300; letter-spacing: .06em;
+    text-decoration: none;
+  }
+  .live:active { color: var(--soft); }
+  .sims {
+    margin-top: 1.3vmin;
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: .2vmin 2vmin; max-width: 100%;
+    font-size: 2.45vmin; font-weight: 300; letter-spacing: .04em;
+    color: rgba(129,216,208,.4);
+  }
+  .sims span {
+    width: 100%; text-transform: uppercase; letter-spacing: .24em;
+    font-size: 2.15vmin; padding-left: .24em;
+  }
+  .sims a { color: inherit; text-decoration: none; }
+  .sims a:active { color: var(--soft); }
+</style>
+</head>
+<body>
+  <main class="round">
+    <header>
+      <svg class="leaf" viewBox="-28 -48 56 70" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+        <path d="M0.00 0.00 C11.00 -12.32 8.25 -31.68 0.00 -44.00 C-8.25 -31.68 -11.00 -12.32 0.00 0.00Z M0.00 -2.00 L0.00 -37.84 M0.00 0.00 C13.22 -4.88 18.47 -20.46 16.78 -32.93 C5.69 -26.97 -3.82 -13.56 0.00 0.00Z M0.91 -1.78 L14.43 -28.32 M0.00 0.00 C3.82 -13.56 -5.69 -26.97 -16.78 -32.93 C-18.47 -20.46 -13.22 -4.88 0.00 0.00Z M-0.91 -1.78 L-14.43 -28.32 M0.00 0.00 C11.18 2.04 20.66 -6.76 24.08 -16.24 C14.00 -16.63 2.30 -11.13 0.00 0.00Z M1.66 -1.12 L20.70 -13.97 M0.00 0.00 C-2.30 -11.13 -14.00 -16.63 -24.08 -16.24 C-20.66 -6.76 -11.18 2.04 0.00 0.00Z M-1.66 -1.12 L-20.70 -13.97 M-0.00 0.00 C3.66 5.81 10.75 5.48 15.69 2.20 C11.84 -2.30 5.12 -4.57 -0.00 0.00Z M1.98 0.28 L13.49 1.90 M0.00 -0.00 C-5.12 -4.57 -11.84 -2.30 -15.69 2.20 C-10.75 5.48 -3.66 5.81 0.00 -0.00Z M-1.98 0.28 L-13.49 1.90 M0 0 L0 16.00"/>
+      </svg>
+      <p class="brand">Portal</p>
+    </header>
+    <nav>
+      <a href="reloj-fumeta.html">Reloj fumeta</a>
+      <a href="reloj-lluvia-hojas.html">Lluvia de hojas</a>
+      <a href="bitcoin-estatico.html">Bitcoin</a>
+    </nav>
+    <a class="live" href="bitcoin.html">Bitcoin en vivo · no va en el reloj</a>
+    <section class="sims">
+      <span>Simuladores</span>
+      <a href="simulador-reloj-fumeta.html">reloj</a>
+      <a href="simulador-lluvia-hojas.html">lluvia</a>
+      <a href="simulador-bitcoin-estatico.html">bitcoin</a>
+      <a href="simulador-bitcoin.html">en vivo</a>
+    </section>
+  </main>
+</body>
+</html>
